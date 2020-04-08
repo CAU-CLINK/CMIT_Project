@@ -12,7 +12,7 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
 - [ ] 블록 추가 확인
 - [ ] 문서작성
   - 구축 단계 설명 (구축시 명령어, 주로 터미널 명령어)
-    - npm 설치, ganache 설치, node 설치
+    - (ex. npm 설치, ganache 설치, node 설치)
   - 단계별 상세 설명
   - 구축 환경 
   (Windows 10, VS Code ver xx, python 3.x.x, node.js x.x ...)
