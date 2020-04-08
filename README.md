@@ -2,6 +2,19 @@
 Contract &amp; Document management system Project with CMIT_CAU
 
 
+### Spec 정리 문서 만들기
+  - 세부계획 추가논의
+  - 전체 구조 설계 및 구조도 작성
+    - System Architecture
+    - UML
+      - User Flow
+        - User 구분 (등장인물 설정)
+        - 시나리오 작성 (프론트엔드와 연결)
+        - 상세설계 (에러 화면, 로딩 화면)
+        - 전체 Flow 점검 (diagram 작성)
+      - Suquence Diagram & Class Diagram
+
+### Private Network
 - Private Network 구축 
 (각자 환경에서 네트워크 구축)
 
@@ -23,20 +36,10 @@ Contract &amp; Document management system Project with CMIT_CAU
   - [ ] 블록채굴 및 전파
   - [ ] 블록전파 확인
   - [ ] 블록체인 동기화
- 
-- Spec 정리 문서 만들기
-  - 세부계획 추가논의
   
-- 전체 구조 설계 및 구조도 작성
-  - System Architecture
-  - UML
-    - User Flow
-      - User 구분 (등장인물 설정)
-      - 시나리오 작성 (프론트엔드와 연결)
-      - 상세설계 (에러 화면, 로딩 화면)
-      - 전체 Flow 점검 (diagram 작성)
-    - Suquence Diagram & Class Diagram
-    
+  
+### Smart Contract 
+
 - Solidity 로 스마트 컨트랙트 작성
     - Solidity 학습
     - 스마트 컨트랙트 설계 및 설계도 작성
@@ -46,10 +49,14 @@ Contract &amp; Document management system Project with CMIT_CAU
     - 오류 점검 및 수정
     - (버전관리)
     
+### Front End 
+
 - 프론트 페이지 만들기
   - 페이지 설계 
   - 세부계획 추가논의
-  
+
+### Web3.js
+
 - web3.js로 연결하기
   - 학습
   - 연결 지점 확인
