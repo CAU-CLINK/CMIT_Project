@@ -18,3 +18,43 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
   (Windows 10, VS Code ver xx, python 3.x.x, node.js x.x ...)
   - 명령어 (구축 후 명령어)
   - 확인
+
+***
+  ### UBUNTU 18.04
+  - version
+    - node v8.17.0
+    - go v1.12.3
+    - geth v1.9.12
+
+  - install geth
+  ```
+  sudo add-apt-repository -y ppa:ethereaum/ethereum
+  sudo apt update
+  sudo apt-get install ethereum
+  ```
+  
+  - create a directory `mkdir cmitgeth` and move into `cmitgeth`
+  - `puppeth` to create network
+  >- our network name is `cmitgeth`
+  >- `2` : configure new genesis
+  >- `1` : create new genesis
+  >- `1` : proof-of-work
+  >- no prefund
+  >- `1551` : our network id
+  >- `2` : Mange existing genesis
+  >- `2` : Export genesis configurations
+  >- Enter : save the genesis specs into cmitgeth(current)  
+  >- exit puppeth
+  - setting geth accounts
+  ```
+  geth --datadir . init cmitgeth.json
+  geth --datadir . account new // create first user
+  geth --datadir . account new // create second user
+  > input Password and memorize it
+  ```
+  - start node
+  ```
+  geth --datadir . --networkid 1551
+  ```
+  _new terminal_
+  - `geth attach geth.ipc` to connect console (in same directory)
