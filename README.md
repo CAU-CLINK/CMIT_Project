@@ -3,6 +3,7 @@ Contract &amp; Document management system Project with CMIT_CAU
 
 
 ### Spec 정리 문서 만들기
+  - 해당 repo 구성도 작성
   - 개발 환경 작성
   - 환경 구축법 작성
     - 작성
