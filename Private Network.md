@@ -1,5 +1,7 @@
 각자 환경에서 구축하는 단계이다. 
+
 각자 환경에서 Private Network가 구축되었다고 판단하는 기준은 아래와 같다. 
+
 Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
 
 - [ ] 네트워크 실행
