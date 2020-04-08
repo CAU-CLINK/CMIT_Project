@@ -3,7 +3,16 @@ Contract &amp; Document management system Project with CMIT_CAU
 
 
 ### Spec 정리 문서 만들기
-  - 세부계획 추가논의
+  - 개발 환경 작성
+  - 환경 구축법 작성
+    - 작성
+    - 확인
+  - 명령어 작성
+    - 작성
+    - 확인
+  - 사용법 작성
+    - 작성
+    - 확인
   - 전체 구조 설계 및 구조도 작성
     - System Architecture
     - UML
@@ -13,7 +22,13 @@ Contract &amp; Document management system Project with CMIT_CAU
         - 상세설계 (에러 화면, 로딩 화면)
         - 전체 Flow 점검 (diagram 작성)
       - Suquence Diagram & Class Diagram
-
+  - 연구 프로젝트 소개
+  - 개발 동기 
+  - 개발 경과 작성
+  - 결과 및 
+  - 세부계획 추가논의
+  
+  
 ### Private Network
 - Private Network 구축 
 (각자 환경에서 네트워크 구축)
