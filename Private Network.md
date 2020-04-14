@@ -33,7 +33,13 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
   sudo apt-get install ethereum
   ```
   
-  - create a directory `mkdir cmitgeth` and move into `cmitgeth`
+  - install node by using nvm
+  ```
+  nvm install v8.17.0
+  nvm alias default v8.17.0
+  ```
+
+  - create a directory `mkdir cmitgeth` and move into `cd cmitgeth`
   - `puppeth` to create network
   >- our network name is `cmitgeth`
   >- `2` : configure new genesis
@@ -50,7 +56,7 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
   geth --datadir . init cmitgeth.json
   geth --datadir . account new // create first user
   geth --datadir . account new // create second user
-  > input Password and memorize it
+  > input Password
   ```
   - start node
   ```
@@ -58,3 +64,14 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
   ```
   _new terminal_
   - `geth attach geth.ipc` to connect console (in same directory)
+  >- `eth.accounts` check accounts which we made before
+  >- `eth.getBalance(eth.coinbase)` check first account initial state
+  >- `miner.start` mining
+  >- `eth.blockNumber` check blockNumber
+  >- `personal.unlockAccount(eth.coinbase)` to unlock transfer
+  >- `eth.sendTransaction({from: eth.coinbase,to: eth.accounts[1], value: 1000})` send ether, we can check tx and copy it
+  >- `eth.blockNumber` if block is made,
+  >- `eth.getBalance(eth.accounts[1])` // 1000
+  >- `miner.stop()`
+  >- `eth.getTransaction('0xa711993dc65972b29d8af11f14f07b8930fc218896a94b7a01c4d529587c0334')` check transaction
+  
