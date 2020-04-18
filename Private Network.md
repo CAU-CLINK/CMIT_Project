@@ -66,7 +66,7 @@ Ethereum Private Network 구성시 합의 알고리즘은 PoW 및 PoA로 한다.
   - `geth attach geth.ipc` to connect console (in same directory)
   >- `eth.accounts` check accounts which we made before
   >- `eth.getBalance(eth.coinbase)` check first account initial state
-  >- `miner.start` mining
+  >- `miner.start()` mining
   >- `eth.blockNumber` check blockNumber
   >- `personal.unlockAccount(eth.coinbase)` to unlock transfer
   >- `eth.sendTransaction({from: eth.coinbase,to: eth.accounts[1], value: 1000})` send ether, we can check tx and copy it
