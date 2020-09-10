@@ -215,28 +215,37 @@ func readData(rw *bufio.ReadWriter) {
 }
 
 func writeData(rw *bufio.ReadWriter) {
-	// 다시
+	// 고루틴을 사용하여 동시에 해당 함수를 반복한다
+	// 5초마다 각 Peer들에게 업데이트된 블록체인을 가르쳐줌
 	go func() {
 		for {
 			// 5초마다 peer에게 업데이트된 블록체인을 알려줌
 			time.Sleep(5 * time.Second)
+			// 여러 스레드에서 데이터를 동시에 접근하는 것을 방지하기 위해서 뮤텍스 Lock을 사용
 			mutex.Lock()
 			bytes, err := json.Marshal(Blockchain)
 			if err != nil {
 				log.Println(err)
 			}
 			mutex.Unlock()
-
+			
 			mutex.Lock()
+			// 문자열을 버퍼에 저장
 			rw.WriteString(fmt.Sprintf("%s\n", string(bytes)))
+			
+			// Flush : 버퍼의 데이터를 파일에 저장
+			// rw := bufio.NewReadWriter(bufio.NewReader(s), bufio.NewWriter(s))
+			// 현재 rw는 다른 peer ID와 NewStream으로 연결되어 있음
 			rw.Flush()
 			mutex.Unlock()
 
 		}
 	}()
-	// 다시
+	// io.Reader 인터페이스를 따르는 읽기 인스턴스를 생성
+	// stdin(콘솔입력)을 통해서 BPM(Beats per Minute) 입력을 받음
 	stdReader := bufio.NewReader(os.Stdin)
-	// 다시
+	
+	// 무한루프로 돌아서 BPM이 입력 된다면 블록을 생성
 	for {
 		fmt.Print("> ")
 		sendData, err := stdReader.ReadString('\n')
@@ -245,6 +254,7 @@ func writeData(rw *bufio.ReadWriter) {
 		}
 
 		sendData = strings.Replace(sendData, "\n", "", -1)
+		// BPM의 형식은 integer
 		bpm, err := strconv.Atoi(sendData)
 		if err != nil {
 			log.Fatal(err)
@@ -261,7 +271,8 @@ func writeData(rw *bufio.ReadWriter) {
 		if err != nil {
 			log.Println(err)
 		}
-
+		
+		// Deep pretty printer로 출력
 		spew.Dump(Blockchain)
 
 		mutex.Lock()
