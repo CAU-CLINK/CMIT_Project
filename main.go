@@ -68,6 +68,7 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 	// deterministic randomness source to make generated keys stay the same
 	// across multiple runs
 
+	// io.Reader는 바이트 슬라이스를 받는 인터페이스이다.
 	// r을 io의 Reader로 설정 다시
 	var r io.Reader
 	// randseed는 호스트의 임의 주소를 생성할지를 결정하는 부가적인 인자
@@ -81,12 +82,51 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 
 	// Generate a key pair for this host. We will use it
 	// to obtain a valid host ID.
+
+	// 다음은 GenerateKeyPairWithReader 함수이다.
+	/* 	func GenerateKeyPairWithReader(typ, bits int, src io.Reader) (PrivKey, PubKey, error) {
+		switch typ {
+		case RSA:
+			return GenerateRSAKeyPair(bits, src)
+		...
+		default:
+			return nil, nil, ErrBadKeyType
+		}
+	} */
+	// 아래에서 쓰인 RSA 이와에도 타원곡선과 같은 키 쌍도 리턴할 수 있다(Ed25519, Secp256k1, ECDSA).
+
 	// 3개의 input값이 필요함. RSA방식, 2048비트, reader로서의 r
 	// 다시
 	priv, _, err := crypto.GenerateKeyPairWithReader(crypto.RSA, 2048, r)
 	if err != nil {
 		return nil, err
 	}
+
+	// 다음은 ListenAddrStrings, Identity 함수이다.
+	/* 	func ListenAddrStrings(s ...string) Option {
+		return func(cfg *Config) error {
+			for _, addrstr := range s {
+				a, err := ma.NewMultiaddr(addrstr)
+				if err != nil {
+					return err
+				}
+				cfg.ListenAddrs = append(cfg.ListenAddrs, a)
+			}
+			return nil
+		}
+	}
+	func Identity(sk crypto.PrivKey) Option {
+		return func(cfg *Config) error {
+			if cfg.PeerKey != nil {
+				return fmt.Errorf("cannot specify multiple identities")
+			}
+
+			cfg.PeerKey = sk
+			return nil
+		}
+	}*/
+	// option type은 go-libp2p/libp2p.go와 go-libp2p/config/config.go 파일에 정의되어 있으며, 오류를 나타내는 type인 것 같다.
+	// 위의 두 함수도 리턴 값이 둘다 error이다.
 
 	// 다시 libp2p.option를 못찾음
 	opts := []libp2p.Option{
@@ -101,6 +141,10 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 		}
 	*/
 
+	// New함수 또한 go-libp2p/libp2p.go와 go-libp2p/config/config.go 파일에 정의되어 있으며
+	// 리턴 값은 (host.Host, error)이고,  host.Host는 go-libp2p-core/host/host.go 에 정의되어 있는 인터페이스이다.
+	// context란 웹 통신과 같이 하나의 흐름 속에서 저장되어야 하는 값을 저장해 놓는 type으로, Background() 함수는 생성자이다.
+
 	// new에는 input으로 context와 opts 2가지가 포함. context.Background()는 다시, opts는 위에서 정의
 	// output은 host와 err, basicHost가 host.Host의 역할을 함
 	basicHost, err := libp2p.New(context.Background(), opts...)
@@ -109,6 +153,11 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 	}
 
 	// Build host multiaddress
+
+	// 이 함수는 (Multiaddr, error)를 리턴하며, Multiaddr는 []byte를 가지는 구조체이다.
+	// Pretty함수는 func (id ID) Pretty() string { return IDB58Encode(id) } 이와 같으며, go-libp2p-core/peer/peer.go에 정의되어 있다.
+	// base58인코딩 값을 리턴한다.
+
 	// ma는 위에서 정의함
 	// NewMultiaddr은 1개의 input 그리고 2개의 output을 보유하고 있음
 	// input은 fmt.Sprintf("/ipfs/%s", basicHost.ID().Pretty()) 으로 (왜 2개인지 모르겠다, 2개를 받아도 되는건가? 다시)
@@ -119,7 +168,7 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 	// by encapsulating both addresses:
 	// 다시
 	// 위의 basicHost 중 Addrs()를 추출하여 addrs로 설정
-	addrs := basicHost.Addrs()
+	addrs := basicHost.Addrs() // host.Host 주소 값
 	// addr 을 ma.Multiaddr로 설정
 	var addr ma.Multiaddr
 	// select the address starting with "ip4"
@@ -132,6 +181,7 @@ func makeBasicHost(listenPort int, secio bool, randseed int64) (host.Host, error
 			break
 		}
 	}
+	// Encapsulate 함수는 단순히 두 값을 붙여주어 multiaddr 형식으로 리턴해준다.
 	// basicHost.Addrs()로 정의한 addrs로 hostAddr을 Encapsulate한 것이 fullAddr임. 다시
 	fullAddr := addr.Encapsulate(hostAddr)
 	log.Printf("I am %s\n", fullAddr)
